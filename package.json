@@ -1,0 +1,23 @@
+{
+  "name": "twitter-app",
+  "version": "1.0.0",
+  "description": "Twitter App With database and server using express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/007Abdullah/Twitter-App.git"
+  },
+  "author": "M Abdullah",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/007Abdullah/Twitter-App/issues"
+  },
+  "homepage": "https://github.com/007Abdullah/Twitter-App#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
