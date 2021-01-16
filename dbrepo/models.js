@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 
-let dbURI = "hjadh";
+let dbURI = "mongodb+srv://root:root@cluster0.s5oku.mongodb.net/twitterdb?retryWrites=true&w=majority";
 
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 

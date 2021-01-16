@@ -12,6 +12,8 @@
 
     <!-- Main css -->
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>
@@ -24,7 +26,7 @@
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form class="register-form" id="register-form" onsubmit="return signup()">
+                        <form class="register-form" onsubmit="return signup()">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" id="txt_name" placeholder="Your Name" required />
@@ -43,11 +45,10 @@
                             </div>
                             <div class="form-group">
                                 <label style="float: left; font-weight: bold; font-size: medium;">Gender :</label>
-                                <select name="gender" id="gender" style="margin-left: 80px; font-size: medium;">
+                                <select name="Gender" id="gender" style="margin-left: 80px; font-size: medium;">
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
-
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
@@ -55,7 +56,7 @@
                                     statements in <a href="#" class="term-service">Terms of service</a></label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                                <input type="submit" class="form-submit" value="Register" />
                             </div>
                         </form>
                     </div>

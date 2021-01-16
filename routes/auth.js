@@ -233,6 +233,15 @@ api.post("/forget-password-step2", (req, res, next) => {
         }
         else if (user) {
             console.log(user);
+            // bcrypt.varifyHash(req.body.opt, user.optCode).then(isMatchedopt => {
+            //     if (isMatchedopt) {
+            //         console.log("matched");
+            //     } else {
+            //         console.log("not matched");
+            //     }
+            // }).catch(e => {
+            //     console.log("error: ", e)
+            // })
             otpModel.find({ email: req.body.email }), function (err, otpData) {
                 if (err) {
                     res.send({
