@@ -61,7 +61,33 @@ function forget() {
         if (response.data.status === 200) {
             console.log(response.data.message);
             alert(response.data.message);
-            window.location.href = "./profile.html"
+            window.location.href = "./../forget-two.html"
+            return
+        } else {
+            alert(response.data.message)
+        }
+    }, (error) => {
+        console.log(error);
+    });
+
+    return false;
+
+}
+function ChangePassowd() {
+    axios({
+        method: 'post',
+        url: "http://localhost:5000/forget-password-step2",
+        data: {
+            email: document.getElementById("txt_email").value,
+            otp: document.getElementById("txt_otp").value,
+            newPassword: document.getElementById("txt_password").value,
+        },
+        withCredentials: true
+    }).then((response) => {
+        if (response.data.status === 200) {
+            console.log(response.data.message);
+            alert(response.data.message);
+            window.location.href = "./../login.html"
             return
         } else {
             alert(response.data.message)

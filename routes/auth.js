@@ -6,7 +6,7 @@ var { userModel, otpModel } = require("../dbrepo/models"); // problem was here, 
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("sameer");
+var client = new postmark.Client("asddkasjj");
 
 
 var api = express.Router();
@@ -186,7 +186,9 @@ api.post("/forget-password", (req, res, next) => {
                     }).then((status) => {
                         console.log("Status :", status);
                         res.send({
-                            message: "Email Send  With Otp"
+                            message: "Email Send  With Otp",
+                            status: 200,
+
                         });
                     }).catch((err) => {
                         console.log("error in sending email otp: ", err);
@@ -213,15 +215,10 @@ api.post("/forget-password", (req, res, next) => {
     })
 });
 api.post("/forget-password-step2", (req, res, next) => {
-    if (!req.body.email && !req.body.opt && !req.body.newPassword) {
-        res.status(403).send(`
-            please send email & otp in json body.
-            e.g:
-            {
-                "email": "kb337137@gmail.com",
-                "newPassword": "xxxxxx",
-                "otp": "xxxxx" 
-            }`)
+    if (!req.body.email && !req.body.otp && !req.body.newPassword) {
+        res.status(403).send({
+            message: "Please Required Field"
+        })
         return;
     }
     userModel.findOne({ email: req.body.email }), function (err, user) {
@@ -272,7 +269,8 @@ api.post("/forget-password-step2", (req, res, next) => {
                                     });
                                 } else if (data) {
                                     res.send({
-                                        message: "Password Update"
+                                        message: "Password Update",
+                                        status: 200
                                     });
                                 }
                             });
