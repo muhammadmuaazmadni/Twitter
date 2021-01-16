@@ -48,3 +48,28 @@ function login() {
 
     return false;
 }
+
+function forget() {
+    axios({
+        method: 'post',
+        url: "http://localhost:5000/forget-password",
+        data: {
+            email: document.getElementById("txt_email").value,
+        },
+        withCredentials: true
+    }).then((response) => {
+        if (response.data.status === 200) {
+            console.log(response.data.message);
+            alert(response.data.message);
+            window.location.href = "./profile.html"
+            return
+        } else {
+            alert(response.data.message)
+        }
+    }, (error) => {
+        console.log(error);
+    });
+
+    return false;
+
+}
