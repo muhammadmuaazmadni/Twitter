@@ -19,7 +19,13 @@ var authRoutes = require("./routes/auth");
 var app = express();
 
 var server = http.createServer(app);
-var io = socketIo(server);
+// var io = socketIo(server);
+
+const io = socketIo(server, {
+    cors: {
+        origin: "*"
+    },
+})
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -131,19 +137,23 @@ app.post("/tweet", (req, res, next) => {
                     });
                 }
                 else if (data) {
-                    console.log("data check karayn kia a rha han Tweeter ", data);
+                    console.log("data checking Tweeter ", data);
                     res.send({
                         message: "Your Tweet Send",
                         status: 200,
                         tweet: data
                     });
+                    io.emit("NEW_POST", JSON.stringify(data.tweet[data.tweet.length - 1]));
                 } else {
                     res.send({
-                        message: "Server Error",
+                        message: "Tweets posting error try again later",
                         status: 500
                     });
                 }
-            })
+            });
+            // tweetModel.findOne({ id: req.body.jToken.id }, {}, { sort: { 'created_at': -1 } }, function (err, post) {
+            //     console.log("this check latest post :", post);
+            // })
         } else {
             res.send({
                 message: "User Not Found",
@@ -154,6 +164,26 @@ app.post("/tweet", (req, res, next) => {
 
 
 });
+app.get("/tweet-get", (req, res, next) => {
+    tweetModel.find({}, function (err, data) {
+        if (err) {
+            res.send({
+                message: "Error :" + err,
+                status: 404
+            });
+        } else if (data) {
+            res.send({
+                gettweet: data,
+                status: 200
+            });
+        } else {
+            res.send({
+                message: "User Not Found"
+            });
+        }
+    });
+});
+
 app.listen(PORT, () => {
     console.log("Server is Running :", PORT);
-})
+});
