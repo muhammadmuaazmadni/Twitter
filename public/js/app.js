@@ -99,6 +99,21 @@ function ChangePassowd() {
 
 }
 
+function gettweet() {
+    axios({
+        method: 'get',
+        url: 'http://localhost:5000/tweet-get',
+        credentials: 'include',
+    }).then((response) => {
+        console.log(response);
+    }, (error) => {
+        console.log(error.message);
+    });
+    getProfile();
+    return false
+}
+
+
 function getProfile() {
     axios({
         method: 'get',
@@ -113,6 +128,9 @@ function getProfile() {
     });
     return false
 }
+
+
+
 
 function logout() {
     axios({
