@@ -127,3 +127,22 @@ function logout() {
     });
     return false
 }
+
+
+
+
+
+socket.on("NEW_POST", (newPost) => {
+    let jsonRes = JSON.parse(newPost);
+
+    var eachtweet = document.createElement("li");
+    eachtweet.innerHTML = `<h4 class="userName">
+    ${jsonRes.userName}
+    </h4>
+     <p class="userPost">
+        ${jsonRes.tweetText}
+    </p>`;
+
+    document.getElementById("posts").appendChild(eachtweet);
+
+})
