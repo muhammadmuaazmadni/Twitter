@@ -6,7 +6,7 @@ var { userModel, otpModel } = require("../dbrepo/models"); // problem was here, 
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("sjdfklajdfkjalfjalsd");
+var client = new postmark.Client("asdfasfasab6c422");
 
 
 var api = express.Router();
@@ -170,19 +170,19 @@ api.post("/forget-password", (req, res, next) => {
         }
         else if (user) {
             console.log(user)
-            const otp = Math.floor(getRandomArbitrary(11111, 99999));
-            bcrypt.stringToHash(otp).then(isFoundopt => {
-                console.log("OPT HASH: ", isFoundopt);
+            const otp = Math.floor(getRandomArbitrary(111111, 999999));
+            bcrypt.stringToHash(otp).then(isFoundotp => {
+                console.log("OTP HASH: ", isFoundotp);
                 otpModel.create({
                     email: req.body.email,
-                    optCode: isFoundopt
+                    otpCode: isFoundotp
                 }).then((doc) => {
                     console.log("bwfore email");
                     client.sendEmail({
                         "From": "abdullah_student@sysborg.com",
                         "To": req.body.email,
                         "Subject": "Reset your password",
-                        "TextBody": `Here is your pasword reset code: ${isFoundopt}`
+                        "TextBody": `Here is your pasword reset code: ${isFoundotp}`
                     }).then((status) => {
                         console.log("Status :", status);
                         res.send({
@@ -230,7 +230,7 @@ api.post("/forget-password-step2", (req, res, next) => {
             });
         }
         else if (user) {
-            console.log(user);
+            console.log("CHeck this point", user);
             otpModel.find({ email: req.body.email }, function (err, otpData) {
                 if (err) {
                     res.send({
@@ -241,15 +241,15 @@ api.post("/forget-password-step2", (req, res, next) => {
                 else if (otpData) {
                     otpData = otpData[otpData.length - 1]
 
-                    console.log("otpData: ", otpData);
+                    console.log("otpData else if wala: ", otpData);
 
                     const now = new Date().getTime();
                     const otpIat = new Date(otpData.createdOn).getTime(); // 2021-01-06T13:08:33.657+0000
                     const diff = now - otpIat; // 300000 5 minute
 
                     console.log("diff: ", diff);
-
-                    if (otpData.otpCode === req.body.otp && diff < 300000) { // correct otp code
+                    if (otpData.otpCode === req.body.otp && diff < 30000000) { // correct otp code
+                        console.log("this point check otp", otpData)
                         otpData.remove()
 
                         bcrypt.stringToHash(req.body.newPassword).then(function (hash) {
