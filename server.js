@@ -5,17 +5,21 @@ var cookieParser = require('cookie-parser');
 var cors = require("cors");
 var morgan = require("morgan");
 var jwt = require('jsonwebtoken');
-
+var http = require("http");
+var socketIo = require("socket.io");
 var path = require("path");
 
 // console.log("module: ", userModel);
 var { SERVER_SECRET } = require("./core/index");
 
 
-var { userModel, otpModel } = require("./dbrepo/models");
+var { userModel, tweetModel } = require("./dbrepo/models");
 var authRoutes = require("./routes/auth");
 
 var app = express();
+
+var server = http.createServer(app);
+var io = socketIo(server);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -104,7 +108,52 @@ app.get("/profile", (req, res, next) => {
         }
     });
 })
+io.on("connection", (user) => {
+    console.log("user connected");
+})
+app.post("/tweet", (req, res, next) => {
+    if (!req.body.jToken.id || !req.body.tweet) {
+        res.send({
+            status: 401,
+            message: "Please write tweet"
+        })
+    }
+    userModel.findById(req.body.jToken.id, 'name', function (err, user) {
+        if (!err) {
+            tweetModel.create({
+                "username": user.name,
+                "tweet": req.body.tweet
+            }, function (err, data) {
+                if (err) {
+                    res.send({
+                        message: "Tweet DB ERROR",
+                        status: 404
+                    });
+                }
+                else if (data) {
+                    console.log("data check karayn kia a rha han Tweeter ", data);
+                    res.send({
+                        message: "Your Tweet Send",
+                        status: 200,
+                        tweet: data
+                    });
+                } else {
+                    res.send({
+                        message: "Server Error",
+                        status: 500
+                    });
+                }
+            })
+        } else {
+            res.send({
+                message: "User Not Found",
+                status: 404
+            });
+        }
+    });
 
+
+});
 app.listen(PORT, () => {
     console.log("Server is Running :", PORT);
 })

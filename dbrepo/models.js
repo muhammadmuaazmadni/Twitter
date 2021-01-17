@@ -34,7 +34,6 @@ var userSchema = new mongoose.Schema({
     "password": String,
     "phone": String,
     "gender": String,
-    "twit": String,
     "createdOn": { "type": Date, "Default": Date.now },
     "activeSince": Date
 });
@@ -50,11 +49,16 @@ var otpSchema = new mongoose.Schema({
 
 var otpModel = mongoose.model("opt", otpSchema)
 
+var tweetSchema = new mongoose.Schema({
+    "username": String,
+    "tweet": String
+});
 
-
+var tweetModel = mongoose.model("tweet", tweetSchema);
 module.exports = {
     userModel: userModel,
     otpModel: otpModel,
+    tweetModel: tweetModel,
     // orderModel: orderModel
     // others
 }

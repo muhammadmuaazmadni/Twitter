@@ -37,7 +37,7 @@ function login() {
         if (response.data.status === 200) {
             console.log(response.data.message);
             alert(response.data.message);
-            window.location.href = "./profile.html"
+            window.location.href = "./../tweet.html"
             return
         } else {
             alert(response.data.message)

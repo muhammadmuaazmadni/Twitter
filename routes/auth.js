@@ -2,13 +2,9 @@ var express = require("express");
 var bcrypt = require("bcrypt-inzi")
 var jwt = require('jsonwebtoken'); // https://github.com/auth0/node-jsonwebtoken
 var { userModel, otpModel } = require("../dbrepo/models"); // problem was here, notice two dots instead of one
-// console.log("userModel: ", userModel);
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
-
 var client = new postmark.Client("sameer khan");
-
-
 var api = express.Router();
 
 api.post("/signup", (req, res, next) => {
@@ -120,6 +116,7 @@ api.post("/login", (req, res, next) => {
 
 
                     res.send({
+                        status: 200,
                         message: "Login Success",
                         user: {
                             name: user.name,
@@ -147,6 +144,10 @@ api.post("/login", (req, res, next) => {
         }
     });
 });
+
+
+
+
 api.post("/logout", () => {
     res.cookie("jToken", "", {
         maxAge: 86_400_000,
@@ -154,8 +155,6 @@ api.post("/logout", () => {
     });
     res.send("logout success");
 });
-
-
 api.post("/forget-password", (req, res, next) => {
     if (!req.body.email) {
         res.send({
@@ -284,8 +283,6 @@ api.post("/forget-password-step2", (req, res, next) => {
     });
 
 });
-
-
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
