@@ -143,7 +143,7 @@ app.post("/tweet", (req, res, next) => {
                         status: 200,
                         tweet: data
                     });
-                    io.emit("NEW_POST", JSON.stringify(data.tweet[data.tweet.length - 1]));
+                    io.emit("NEW_POST", JSON.stringify(data.tweet));
                 } else {
                     res.send({
                         message: "Tweets posting error try again later",
