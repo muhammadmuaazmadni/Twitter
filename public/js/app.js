@@ -74,8 +74,6 @@ function forget() {
 
 }
 function ChangePassowd() {
-
-
     axios({
         method: 'post',
         url: "http://localhost:5000/forget-password-step2",
@@ -86,11 +84,17 @@ function ChangePassowd() {
         },
         withCredentials: true
     }).then((response) => {
-        console.log(response)
+        if (response.data.status === 200) {
+            console.log(response.data.message);
+            alert(response.data.message);
+            window.location.href = "./../login.html"
+            return
+        } else {
+            alert(response.data.message)
+        }
     }, (error) => {
         console.log(error);
     });
-
     return false;
 
 }

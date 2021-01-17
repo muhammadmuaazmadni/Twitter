@@ -6,7 +6,7 @@ var { userModel, otpModel } = require("../dbrepo/models"); // problem was here, 
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("asdfasfasab6c422");
+var client = new postmark.Client("sameer khan");
 
 
 var api = express.Router();
@@ -254,7 +254,10 @@ api.post("/forget-password-step2", (req, res, next) => {
 
                         bcrypt.stringToHash(req.body.newPassword).then(function (hash) {
                             user.update({ password: hash }, {}, function (err, data) {
-                                res.send("password updated");
+                                res.send({
+                                    message: "Password Change",
+                                    status: 200
+                                });
                             })
                         })
 
