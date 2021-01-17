@@ -6,7 +6,7 @@ var { userModel, otpModel } = require("../dbrepo/models"); // problem was here, 
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
 
-var client = new postmark.Client("asddkasjj");
+var client = new postmark.Client("sjdfklajdfkjalfjalsd");
 
 
 var api = express.Router();
@@ -215,13 +215,14 @@ api.post("/forget-password", (req, res, next) => {
     })
 });
 api.post("/forget-password-step2", (req, res, next) => {
-    if (!req.body.email && !req.body.otp && !req.body.newPassword) {
-        res.status(403).send({
-            message: "Please Required Field"
-        })
-        return;
+    if (!req.body.email || !req.body.otp || !req.body.newPassword) {
+        res.send({
+            message: "Please required EMAIL Otp AND NEW PASSWORD",
+            status: 403
+        });
+        return
     }
-    userModel.findOne({ email: req.body.email }), function (err, user) {
+    userModel.findOne({ email: req.body.email }, function (err, user) {
         if (err) {
             res.send({
                 message: "An Error Occure " + JSON.stringify(err),
@@ -230,19 +231,10 @@ api.post("/forget-password-step2", (req, res, next) => {
         }
         else if (user) {
             console.log(user);
-            // bcrypt.varifyHash(req.body.opt, user.optCode).then(isMatchedopt => {
-            //     if (isMatchedopt) {
-            //         console.log("matched");
-            //     } else {
-            //         console.log("not matched");
-            //     }
-            // }).catch(e => {
-            //     console.log("error: ", e)
-            // })
-            otpModel.find({ email: req.body.email }), function (err, otpData) {
+            otpModel.find({ email: req.body.email }, function (err, otpData) {
                 if (err) {
                     res.send({
-                        message: "An Error Occure" + JSON.stringify(err),
+                        message: "An Error Occure " + JSON.stringify(err),
                         status: 500
                     });
                 }
@@ -252,51 +244,42 @@ api.post("/forget-password-step2", (req, res, next) => {
                     console.log("otpData: ", otpData);
 
                     const now = new Date().getTime();
-                    const otpIat = new Date(otpData.createdOn).getTime();// 2021-01-06T13:08:33.657+0000
-                    const diff = now - otpIat;// 300000 5 minute
+                    const otpIat = new Date(otpData.createdOn).getTime(); // 2021-01-06T13:08:33.657+0000
+                    const diff = now - otpIat; // 300000 5 minute
+
                     console.log("diff: ", diff);
 
-                    if (otpData.optCode === req.body.otp && diff < 300000) {
-                        optData.remove();
+                    if (otpData.otpCode === req.body.otp && diff < 300000) { // correct otp code
+                        otpData.remove()
 
                         bcrypt.stringToHash(req.body.newPassword).then(function (hash) {
                             user.update({ password: hash }, {}, function (err, data) {
-                                if (err) {
-                                    console.log("opt Data ERROR ", err)
-                                    res.send({
-                                        message: "Error Occure", errr,
-                                        status: 405
-                                    });
-                                } else if (data) {
-                                    res.send({
-                                        message: "Password Update",
-                                        status: 200
-                                    });
-                                }
-                            });
-                        });
+                                res.send("password updated");
+                            })
+                        })
 
                     } else {
-                        res.send({
-                            message: "Incorrect Otp",
-                            status: 401
+                        res.status(401).send({
+                            message: "incorrect otp"
                         });
                     }
                 } else {
-                    res.send({
-                        message: "Incorrect Otp",
-                        status: 401
-                    })
+                    res.status(401).send({
+                        message: "incorrect otp"
+                    });
                 }
+            })
 
-            }
         } else {
             res.send({
                 message: "User Not Found",
-                status: 403
-            });
+                status: 409
+            })
         }
-    }
+
+
+    });
+
 });
 
 
