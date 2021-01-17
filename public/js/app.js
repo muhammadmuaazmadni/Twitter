@@ -98,3 +98,32 @@ function ChangePassowd() {
     return false;
 
 }
+
+function getProfile() {
+    axios({
+        method: 'get',
+        url: 'http://localhost:5000/profile',
+        credentials: 'include',
+    }).then((response) => {
+        console.log(response);
+        document.getElementById('name').innerHTML = response.data.profile.name
+        document.getElementById('email').innerHTML = response.data.profile.email
+    }, (error) => {
+        console.log(error.message);
+    });
+    return false
+}
+
+function logout() {
+    axios({
+        method: 'post',
+        url: 'http://localhost:5000/logout',
+        credentials: 'include',
+    }).then((response) => {
+        console.log(response);
+        window.location.href = "./../login.html"
+    }, (error) => {
+        console.log(error.message);
+    });
+    return false
+}

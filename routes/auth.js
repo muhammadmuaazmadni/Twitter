@@ -148,7 +148,7 @@ api.post("/login", (req, res, next) => {
 
 
 
-api.post("/logout", () => {
+api.post("/logout", (req, res, next) => {
     res.cookie("jToken", "", {
         maxAge: 86_400_000,
         httpOnly: true
