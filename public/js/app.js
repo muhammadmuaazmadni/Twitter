@@ -171,7 +171,7 @@ function mytweet() {
                  <p>
                     ${tweets[i].tweet}
                 </p>`;
-            document.getElementById("mytweet").appendChild(eachtweet);
+            document.getElementById("getalltweet").appendChild(eachtweet);
         }
     }, (error) => {
         console.log(error.message);
@@ -192,8 +192,8 @@ socket.on("NEW_POST", (newPost) => {
         ${jsonRes.tweet}
     </p>`;
 
-    document.getElementById("getalltweet").appendChild(eachtweet);
-    // document.getElementById("mytweet").appendChild(eachtweet);
+    // document.getElementById("getalltweet").appendChild(eachtweet);
+    document.getElementById("mytweet").appendChild(eachtweet);
 
 })
 
