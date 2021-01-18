@@ -4,7 +4,8 @@ var jwt = require('jsonwebtoken'); // https://github.com/auth0/node-jsonwebtoken
 var { userModel, otpModel } = require("../dbrepo/models"); // problem was here, notice two dots instead of one
 var postmark = require("postmark");
 var { SERVER_SECRET } = require("../core/index");
-var client = new postmark.Client("sameer khan");
+var emailApi = process.env.EMAIL_API;
+var client = new postmark.ServerClient(emailApi);
 var api = express.Router();
 
 

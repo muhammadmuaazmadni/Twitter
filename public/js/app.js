@@ -1,6 +1,7 @@
 
-
-var socket = io("http://localhost:5000/");
+var url = "https://twitterappui.herokuapp.com";
+// var url = "http://localhost:5000";
+var socket = io(url);
 
 socket.on('connect', function () {
     console.log("connected")
@@ -10,7 +11,7 @@ function signup() {
 
     axios({
         method: 'post',
-        url: 'http://localhost:5000/signup',
+        url: url + '/signup',
         data: {
             name: document.getElementById("txt_name").value,
             email: document.getElementById("txt_email").value,
@@ -35,7 +36,7 @@ function signup() {
 function login() {
     axios({
         method: 'post',
-        url: "http://localhost:5000/login",
+        url: url + "/login",
         data: {
             email: document.getElementById("txt_email").value,
             password: document.getElementById("txt_password").value,
@@ -60,7 +61,7 @@ function login() {
 function forget() {
     axios({
         method: 'post',
-        url: "http://localhost:5000/forget-password",
+        url: url + "/forget-password",
         data: {
             email: document.getElementById("txt_email").value,
         },
@@ -84,7 +85,7 @@ function forget() {
 function ChangePassowd() {
     axios({
         method: 'post',
-        url: "http://localhost:5000/forget-password-step2",
+        url: url + "/forget-password-step2",
         data: {
             email: document.getElementById("txt_email").value,
             otp: document.getElementById("txt_otp").value,
@@ -111,7 +112,7 @@ function ChangePassowd() {
 function tweetpost() {
     axios({
         method: 'post',
-        url: "http://localhost:5000/tweet",
+        url: url + "/tweet",
         data: {
             tweet: document.getElementById("tweet").value,
         },
@@ -130,9 +131,10 @@ function tweetpost() {
 
 
 function gettweet() {
+    getProfile();
     axios({
         method: 'get',
-        url: 'http://localhost:5000/tweet-get',
+        url: url + '/tweet-get',
         credentials: 'include',
     }).then((response) => {
         let tweets = response.data.gettweet;
@@ -149,15 +151,15 @@ function gettweet() {
     }, (error) => {
         console.log(error.message);
     });
-    getProfile();
-   
+
+
     return false
 }
 
 function mytweet() {
     axios({
         method: 'get',
-        url: 'http://localhost:5000/myTweets',
+        url: url + '/myTweets',
         credentials: 'include',
     }).then((response) => {
         let tweets = response.data.tweet;
@@ -200,7 +202,7 @@ socket.on("NEW_POST", (newPost) => {
 function getProfile() {
     axios({
         method: 'get',
-        url: 'http://localhost:5000/profile',
+        url: url + '/profile',
         credentials: 'include',
     }).then((response) => {
         console.log(response);
@@ -218,7 +220,7 @@ function getProfile() {
 function logout() {
     axios({
         method: 'post',
-        url: 'http://localhost:5000/logout',
+        url: url + '/logout',
         credentials: 'include',
     }).then((response) => {
         console.log(response);
