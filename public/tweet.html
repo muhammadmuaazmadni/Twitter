@@ -19,17 +19,14 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/socket.io.js"></script>
     <style>
-        ul {
-            list-style-type: none;
-            counter-reset: item 6;
+        ol {
+            display: flex;
+            flex-direction: column-reverse;
+            list-style: none;
         }
 
-        ul>li {
-            counter-increment: item -1;
-        }
-
-        ul>li:after {
-            content: counter(item);
+        li {
+            flex: 0 0 auto;
         }
     </style>
 </head>
@@ -60,10 +57,10 @@
         <div class="row">
             <p style="width: 60%;margin: 0 auto; margin-top: 100px;display: flexbox;padding: 5px;">
                 <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
-                    aria-expanded="false" aria-controls="multiCollapseExample1">YOUR TWEETS</a>
+                    aria-expanded="false" aria-controls="multiCollapseExample1">OTHER TWEETS</a>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#multiCollapseExample2" aria-expanded="false"
-                    aria-controls="multiCollapseExample2">OTHER TWEETS</button>
+                    aria-controls="multiCollapseExample2">YOUR TWEETS</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
                     aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">BOTH
                     TWEETS</button>
@@ -72,18 +69,18 @@
                 <div class="col">
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
                         <div class="card card-body">
-                            <ul id="getalltweet">
-
-                            </ul>
+                            <ol id="getalltweet">
+                                
+                            </ol>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
                         <div class="card card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                            squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                            ea proident.
+                            <ol id="mytweet">
+                                
+                            </ol>
                         </div>
                     </div>
                 </div>

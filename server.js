@@ -46,7 +46,7 @@ app.use('/', authRoutes);
 
 
 var io = socketIO(server);
- io.on("connection", (user) => {
+io.on("connection", (user) => {
     console.log("user connected");
 })
 
@@ -184,6 +184,24 @@ app.get("/tweet-get", (req, res, next) => {
             });
         }
     });
+});
+
+app.get("/myTweets", (req, res, next) => {
+    console.log(req.body.jToken.name)
+
+    tweetModel.find({username : req.body.jToken.name},(err,data)=>{
+        if (!err) {
+            console.log("tweet data=>", data);
+            res.send({
+                tweet: data,
+                status: 200
+            });
+        }
+        else {
+            console.log("error : ", err);
+            res.status(500).send("error");
+        }
+    })
 });
 
 server.listen(PORT, () => {

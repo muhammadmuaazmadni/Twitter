@@ -150,10 +150,31 @@ function gettweet() {
         console.log(error.message);
     });
     getProfile();
+   
     return false
 }
 
-
+function mytweet() {
+    axios({
+        method: 'get',
+        url: 'http://localhost:5000/myTweets',
+        credentials: 'include',
+    }).then((response) => {
+        let tweets = response.data.tweet;
+        for (i = 0; i < tweets.length; i++) {
+            var eachtweet = document.createElement("li");
+            eachtweet.innerHTML = `<h4>
+                ${tweets[i].username}
+                </h4>
+                 <p>
+                    ${tweets[i].tweet}
+                </p>`;
+            document.getElementById("mytweet").appendChild(eachtweet);
+        }
+    }, (error) => {
+        console.log(error.message);
+    });
+}
 
 socket.on("NEW_POST", (newPost) => {
 
@@ -170,6 +191,7 @@ socket.on("NEW_POST", (newPost) => {
     </p>`;
 
     document.getElementById("getalltweet").appendChild(eachtweet);
+    document.getElementById("mytweet").appendChild(eachtweet);
 
 })
 
