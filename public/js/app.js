@@ -199,7 +199,7 @@ socket.on("NEW_POST", (newPost) => {
 
 socket.on("MY_POST", (newPost) => {
 
-
+    console.log("second socket chnage",newPost)
     console.log(newPost);
 
     let jsonRes = newPost;
@@ -211,8 +211,8 @@ socket.on("MY_POST", (newPost) => {
         ${jsonRes.tweet}
     </p>`;
 
-    // document.getElementById("getalltweet").appendChild(eachtweet);
-    document.getElementById("mytweet").appendChild(eachtweet);
+    document.getElementById("getalltweet").appendChild(eachtweet);
+    
 
 })
 
