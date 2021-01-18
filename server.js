@@ -189,13 +189,14 @@ app.get("/tweet-get", (req, res, next) => {
 app.get("/myTweets", (req, res, next) => {
     console.log(req.body.jToken.name)
 
-    tweetModel.find({username : req.body.jToken.name},(err,data)=>{
+    tweetModel.find({ username: req.body.jToken.name }, (err, data) => {
         if (!err) {
             console.log("tweet data=>", data);
             res.send({
                 tweet: data,
                 status: 200
             });
+            io.emit("MY_POST", data);
         }
         else {
             console.log("error : ", err);

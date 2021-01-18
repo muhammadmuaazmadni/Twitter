@@ -171,7 +171,7 @@ function mytweet() {
                  <p>
                     ${tweets[i].tweet}
                 </p>`;
-            document.getElementById("getalltweet").appendChild(eachtweet);
+            document.getElementById("mytweet").appendChild(eachtweet);
         }
     }, (error) => {
         console.log(error.message);
@@ -192,11 +192,29 @@ socket.on("NEW_POST", (newPost) => {
         ${jsonRes.tweet}
     </p>`;
 
+    document.getElementById("getalltweet").appendChild(eachtweet);
+
+
+})
+
+socket.on("MY_POST", (newPost) => {
+
+
+    console.log(newPost);
+
+    let jsonRes = newPost;
+    var eachtweet = document.createElement("li");
+    eachtweet.innerHTML = `<h4>
+    ${jsonRes.username}
+    </h4>
+     <p>
+        ${jsonRes.tweet}
+    </p>`;
+
     // document.getElementById("getalltweet").appendChild(eachtweet);
     document.getElementById("mytweet").appendChild(eachtweet);
 
 })
-
 
 
 function getProfile() {
