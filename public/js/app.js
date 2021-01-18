@@ -1,5 +1,5 @@
 
-var url = "https://twitterappui.herokuapp.com";
+var url = "https://twitter-applicatin.herokuapp.com";
 // var url = "http://localhost:5000";
 var socket = io(url);
 
