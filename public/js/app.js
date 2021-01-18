@@ -193,7 +193,7 @@ socket.on("NEW_POST", (newPost) => {
     </p>`;
 
     document.getElementById("getalltweet").appendChild(eachtweet);
-    document.getElementById("mytweet").appendChild(eachtweet);
+    // document.getElementById("mytweet").appendChild(eachtweet);
 
 })
 
