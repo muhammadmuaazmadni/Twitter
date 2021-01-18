@@ -7,7 +7,9 @@ var { SERVER_SECRET } = require("../core/index");
 var client = new postmark.Client("sameer khan");
 var api = express.Router();
 
+
 api.post("/signup", (req, res, next) => {
+   
     if (!req.body.name
         || !req.body.email
         || !req.body.password

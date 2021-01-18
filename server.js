@@ -6,7 +6,8 @@ var cors = require("cors");
 var morgan = require("morgan");
 var jwt = require('jsonwebtoken');
 var http = require("http");
-var socketIo = require("socket.io");
+var socketIO = require('socket.io');
+
 var path = require("path");
 
 // console.log("module: ", userModel);
@@ -19,13 +20,8 @@ var authRoutes = require("./routes/auth");
 var app = express();
 
 var server = http.createServer(app);
-// var io = socketIo(server);
 
-const io = socketIo(server, {
-    cors: {
-        origin: "*"
-    },
-})
+
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -47,6 +43,12 @@ app.use(morgan('dev'));
 app.use("/", express.static(path.resolve(path.join(__dirname, "public"))))
 
 app.use('/', authRoutes);
+
+
+var io = socketIO(server);
+ io.on("connection", (user) => {
+    console.log("user connected");
+})
 
 
 app.use(function (req, res, next) {
@@ -114,9 +116,7 @@ app.get("/profile", (req, res, next) => {
         }
     });
 })
-io.on("connection", (user) => {
-    console.log("user connected");
-})
+
 app.post("/tweet", (req, res, next) => {
     if (!req.body.jToken.id || !req.body.tweet) {
         res.send({
@@ -143,7 +143,9 @@ app.post("/tweet", (req, res, next) => {
                         status: 200,
                         tweet: data
                     });
-                    io.emit("NEW_POST", JSON.stringify(data.tweet));
+                    io.emit("NEW_POST", data);
+
+                    console.log("server checking code tweet ", data.tweet)
                 } else {
                     res.send({
                         message: "Tweets posting error try again later",
@@ -184,6 +186,6 @@ app.get("/tweet-get", (req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log("Server is Running :", PORT);
+server.listen(PORT, () => {
+    console.log("Server is Running:", PORT);
 });

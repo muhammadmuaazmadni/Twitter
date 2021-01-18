@@ -1,3 +1,11 @@
+
+
+var socket = io("http://localhost:5000/");
+
+socket.on('connect', function () {
+    console.log("connected")
+});
+
 function signup() {
 
     axios({
@@ -99,19 +107,72 @@ function ChangePassowd() {
 
 }
 
+
+function tweetpost() {
+    axios({
+        method: 'post',
+        url: "http://localhost:5000/tweet",
+        data: {
+            tweet: document.getElementById("tweet").value,
+        },
+        withCredentials: true
+    }).then((response) => {
+        if (response.data.status === 200) {
+            alert(response.data.message)
+            return
+        } else {
+            alert(response.data.message)
+        }
+    }, (error) => {
+        console.log(error);
+    });
+}
+
+
 function gettweet() {
     axios({
         method: 'get',
         url: 'http://localhost:5000/tweet-get',
         credentials: 'include',
     }).then((response) => {
-        console.log(response);
+        let tweets = response.data.gettweet;
+        for (i = 0; i < tweets.length; i++) {
+            var eachtweet = document.createElement("li");
+            eachtweet.innerHTML = `<h4>
+                ${tweets[i].username}
+                </h4>
+                 <p>
+                    ${tweets[i].tweet}
+                </p>`;
+            document.getElementById("getalltweet").appendChild(eachtweet);
+        }
     }, (error) => {
         console.log(error.message);
     });
     getProfile();
     return false
 }
+
+
+
+socket.on("NEW_POST", (newPost) => {
+
+
+    console.log(newPost);
+
+    let jsonRes = newPost;
+    var eachtweet = document.createElement("li");
+    eachtweet.innerHTML = `<h4>
+    ${jsonRes.username}
+    </h4>
+     <p>
+        ${jsonRes.tweet}
+    </p>`;
+
+    document.getElementById("getalltweet").appendChild(eachtweet);
+
+})
+
 
 
 function getProfile() {
@@ -150,17 +211,3 @@ function logout() {
 
 
 
-socket.on("NEW_POST", (newPost) => {
-    let jsonRes = JSON.parse(newPost);
-
-    var eachtweet = document.createElement("li");
-    eachtweet.innerHTML = `<h4 class="userName">
-    ${jsonRes.userName}
-    </h4>
-     <p class="userPost">
-        ${jsonRes.tweetText}
-    </p>`;
-
-    document.getElementById("posts").appendChild(eachtweet);
-
-})
