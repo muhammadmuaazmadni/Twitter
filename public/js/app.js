@@ -275,42 +275,6 @@ function ChangePassowd() {
 
 }
 
-
-
-
-
-
-// function mytweet() {
-//     axios({
-//         method: 'get',
-//         url: url + '/myTweets',
-//         credentials: 'include',
-//     }).then((response) => {
-//         let tweets = response.data.tweet;
-//         for (i = 0; i < tweets.length; i++) {
-//             var eachtweet = document.createElement("li");
-//             eachtweet.innerHTML = `<h4>
-//                 ${tweets[i].username}
-//                 </h4>
-//                  <p>
-//                     ${tweets[i].tweet}
-//                 </p>`;
-//             document.getElementById("getalltweet").appendChild(eachtweet);
-//         }
-//     }, (error) => {
-//         console.log(error.message);
-//     });
-// }
-
-
-
-
-
-
-
-
-
-
 function logout() {
     axios({
         method: 'post',
