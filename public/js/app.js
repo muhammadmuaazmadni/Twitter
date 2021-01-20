@@ -58,6 +58,24 @@ function login() {
 
     return false;
 }
+function getProfile() {
+    axios({
+        method: 'get',
+        url: url + '/profile',
+        credentials: 'include',
+    }).then((response) => {
+        console.log(response);
+        document.getElementById('name').innerHTML = response.data.profile.name
+        document.getElementById('email').innerHTML = response.data.profile.email
+        document.getElementById("show_pic").src = response.data.profile.profilePic
+    }, (error) => {
+        console.log(error.message);
+    });
+    return false
+}
+
+
+
 function upload() {
 
     var fileInput = document.getElementById("fileInput");
@@ -110,9 +128,82 @@ function upload() {
 
 }
 
+function tweetpost() {
+    axios({
+        method: 'post',
+        url: url + "/tweet",
+        data: {
+            tweet: document.getElementById("tweet").value,
+        },
+        withCredentials: true
+    }).then((response) => {
 
+        console.log(response.data.data.username);
+        document.getElementById('mytweet').innerHTML += `
+        <div class="posts">
+        <h4>${response.data.data.username}</h4>
+        <p>${response.data.data.tweet}</p>
+        </div>
+        
+        `
 
+    }, (error) => {
+        console.log(error);
+    });
+    document.getElementById('tweet').value = "";
+    return false;
+}
 
+function gettweet() {
+    axios({
+        method: 'get',
+        url: url + '/tweet-get',
+        credentials: 'include',
+    }).then((response) => {
+        let tweets = response.data;
+        let html = ""
+        tweets.forEach(element => {
+            html += `
+            <div class="posts">
+            <h4>${element.username}</h4>
+            <p class="noteCard">${element.tweet}</p>
+            </div>
+            `
+        });
+        document.getElementById('getall').innerHTML = html;
+
+        let userTweet = response.data
+        let userHtml = ""
+
+        userTweet.forEach(element => {
+            if (element.username == response.data.username) {
+                userHtml += `
+                <div class="posts">
+                <h4>${element.usernmae}</h4>
+                <p class="noteCard">${element.tweet}</p>
+                </div>
+                `
+            }
+        });
+        document.getElementById('mytweet').innerHTML = userHtml;
+    }, (error) => {
+        console.log(error.message);
+    });
+
+    return false
+
+}
+
+socket.on('NEW_POST', (newPost) => {
+    console.log(newPost)
+    let tweets = newPost;
+    document.getElementById('getall').innerHTML += `
+    <div class="posts">
+    <h4>${tweets.username}</h4>
+    <p>${tweets.tweet}</p>
+    </div>
+    `
+})
 
 
 function previewFile() {
@@ -185,129 +276,37 @@ function ChangePassowd() {
 }
 
 
-function tweetpost() {
-    axios({
-        method: 'post',
-        url: url + "/tweet",
-        data: {
-            tweet: document.getElementById("tweet").value,
-        },
-        withCredentials: true
-    }).then((response) => {
-        if (response.data.status === 200) {
-            alert(response.data.message)
-            return
-        } else {
-            alert(response.data.message)
-        }
-    }, (error) => {
-        console.log(error);
-    });
-}
 
 
-function gettweet() {
-    getProfile();
-    axios({
-        method: 'get',
-        url: url + '/tweet-get',
-        credentials: 'include',
-    }).then((response) => {
-        let tweets = response.data.gettweet;
-        for (i = 0; i < tweets.length; i++) {
-            var eachtweet = document.createElement("li");
-            eachtweet.innerHTML = `<h4>
-                ${tweets[i].username}
-                </h4>
-                 <p>
-                    ${tweets[i].tweet}
-                </p>`;
-            document.getElementById("mytweet").appendChild(eachtweet);
-        }
-    }, (error) => {
-        console.log(error.message);
-    });
 
 
-    return false
-}
-
-function mytweet() {
-    axios({
-        method: 'get',
-        url: url + '/myTweets',
-        credentials: 'include',
-    }).then((response) => {
-        let tweets = response.data.tweet;
-        for (i = 0; i < tweets.length; i++) {
-            var eachtweet = document.createElement("li");
-            eachtweet.innerHTML = `<h4>
-                ${tweets[i].username}
-                </h4>
-                 <p>
-                    ${tweets[i].tweet}
-                </p>`;
-            document.getElementById("getalltweet").appendChild(eachtweet);
-        }
-    }, (error) => {
-        console.log(error.message);
-    });
-}
-
-socket.on("NEW_POST", (newPost) => {
+// function mytweet() {
+//     axios({
+//         method: 'get',
+//         url: url + '/myTweets',
+//         credentials: 'include',
+//     }).then((response) => {
+//         let tweets = response.data.tweet;
+//         for (i = 0; i < tweets.length; i++) {
+//             var eachtweet = document.createElement("li");
+//             eachtweet.innerHTML = `<h4>
+//                 ${tweets[i].username}
+//                 </h4>
+//                  <p>
+//                     ${tweets[i].tweet}
+//                 </p>`;
+//             document.getElementById("getalltweet").appendChild(eachtweet);
+//         }
+//     }, (error) => {
+//         console.log(error.message);
+//     });
+// }
 
 
-    console.log(newPost);
-
-    let jsonRes = newPost;
-    var eachtweet = document.createElement("li");
-    eachtweet.innerHTML = `<h4>
-    ${jsonRes.username}
-    </h4>
-     <p>
-        ${jsonRes.tweet}
-    </p>`;
-
-    document.getElementById("getalltweet").appendChild(eachtweet);
 
 
-})
-
-socket.on("MY_POST", (newPost) => {
-
-    console.log("second socket chnage", newPost)
-    console.log(newPost);
-
-    let jsonRes = newPost;
-    var eachtweet = document.createElement("li");
-    eachtweet.innerHTML = `<h4>
-    ${jsonRes.username}
-    </h4>
-     <p>
-        ${jsonRes.tweet}
-    </p>`;
-
-    document.getElementById("getalltweet").appendChild(eachtweet);
 
 
-})
-
-
-function getProfile() {
-    axios({
-        method: 'get',
-        url: url + '/profile',
-        credentials: 'include',
-    }).then((response) => {
-        console.log(response);
-        document.getElementById('name').innerHTML = response.data.profile.name
-        document.getElementById('email').innerHTML = response.data.profile.email
-        document.getElementById("show_pic").src = response.data.profile.profilePic
-    }, (error) => {
-        console.log(error.message);
-    });
-    return false
-}
 
 
 

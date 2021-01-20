@@ -31,7 +31,7 @@
     </style>
 </head>
 
-<body onload="gettweet(); mytweet();">
+<body onload="getProfile(); gettweet();">
 
     <div class="container-fluid">
         <div class="row">
@@ -41,10 +41,10 @@
             and this have nothing to do with actual file upload process 
             but if you remove it page will reload on submit -->
 
-               
-                <img src=""  id="show_pic" style="border-radius:6% ;" width="300px" height="200px">
 
-                 <input required type="file" id="fileInput" onchange="previewFile()">
+                <img src="" id="show_pic" style="border-radius:6% ;" width="300px" height="200px">
+
+                <input required type="file" id="fileInput" onchange="previewFile()">
                 <button type="submit"> Upload </button>
 
 
@@ -63,14 +63,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="input-group mb-3" style="width: 60%;margin: 0 auto; top:80px ;">
-                <input type="text" class="form-control" placeholder="Write Tweet" aria-label="Recipient's username"
-                    aria-describedby="button-addon2" id="tweet">
-                <button class="btn btn-outline-success" type="button" onclick="tweetpost()">POST</button>
-            </div>
+            <form onsubmit="return tweetpost()">
+                <div class="input-group mb-3" style="width: 60%;margin: 0 auto; top:80px ;">
+                    <input type="text" class="form-control" placeholder="Write Tweet" aria-label="Recipient's username"
+                        aria-describedby="button-addon2" id="tweet">
+                    <input type="submit" class=" btn btn-outline-success" value="POST"></input>
+
+                </div>
+            </form>
         </div>
 
-        <div class="row">
+        <div class=" row">
             <p style="width: 60%;margin: 0 auto; margin-top: 100px;display: flexbox;padding: 5px;">
                 <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button"
                     aria-expanded="false" aria-controls="multiCollapseExample1">YOUR TWEETS</a>
@@ -85,7 +88,7 @@
                 <div class="col">
                     <div class="collapse multi-collapse" id="multiCollapseExample1">
                         <div class="card card-body">
-                            <ol id="getalltweet">
+                            <ol id="mytweet">
 
                             </ol>
                         </div>
@@ -94,7 +97,7 @@
                 <div class="col">
                     <div class="collapse multi-collapse" id="multiCollapseExample2">
                         <div class="card card-body">
-                            <ol id="mytweet">
+                            <ol id="getall">
 
                             </ol>
                         </div>
