@@ -28,6 +28,8 @@
         li {
             flex: 0 0 auto;
         }
+
+       
     </style>
 </head>
 
@@ -35,22 +37,6 @@
 
     <div class="container-fluid">
         <div class="row">
-            <form onsubmit="return upload()">
-                <!-- dont get confused with return keyword inside onsubmit, 
-            it is there to prevent html page to reload/default behaviour,
-            and this have nothing to do with actual file upload process 
-            but if you remove it page will reload on submit -->
-
-
-                <img src="" id="show_pic" style="border-radius:6% ;" width="300px" height="200px">
-
-                <input required type="file" id="fileInput" onchange="previewFile()">
-                <button type="submit"> Upload </button>
-
-
-            </form>
-
-
             <div class="col" style="text-align: center; margin-top: 25px;">
                 <h2 id="name"></h2>
                 <h5 id="email"></h5>
@@ -60,6 +46,33 @@
             </div>
             <div class="col" style="text-align: center; margin-top: 25px;">
                 <button type="button" onclick="logout()" class="btn btn-outline-success">LOG OUT</button>
+            </div>
+            <br>
+            <br>
+        </div>
+        <br>
+        <div class="row">
+            <br>
+            <br>
+            <div class="col-5">
+
+            </div>
+            <div class="col">
+                <form onsubmit="return upload()">
+                    <!-- dont get confused with return keyword inside onsubmit, 
+                it is there to prevent html page to reload/default behaviour,
+                and this have nothing to do with actual file upload process 
+                but if you remove it page will reload on submit -->
+
+
+                    <img src="./../defaul.png" id="show_pic" style="border-radius:10% ;" width="250px">
+                    <br>
+                    <br>
+                    <input required type="file" id="fileInput" onchange="previewFile()">
+                    <button type="submit"> Upload </button>
+
+
+                </form>
             </div>
         </div>
         <div class="row">
