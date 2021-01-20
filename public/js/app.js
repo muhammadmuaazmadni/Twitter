@@ -275,6 +275,7 @@ function ChangePassowd() {
 
 }
 
+
 function logout() {
     axios({
         method: 'post',
@@ -292,4 +293,7 @@ function logout() {
 
 
 
-
+function showProfile() {
+    document.getElementById('other').style.display = "none"
+    document.getElementById('profile').style.display = "block"
+}
