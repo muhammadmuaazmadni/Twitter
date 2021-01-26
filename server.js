@@ -37,7 +37,7 @@ var upload = multer({ storage: storage })
 var serviceAccount = JSON.parse(process.env.serviceAccount);
 
 
-admin.initializeApp({
+  admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: process.env.databaseURL
 });
