@@ -181,7 +181,7 @@ api.post("/forget-password", (req, res, next) => {
                 }).then((doc) => {
                     console.log("bwfore email");
                     client.sendEmail({
-                        "From": "abdullah_student@sysborg.com",
+                        "From": "muaaz_student@sysborg.com",
                         "To": req.body.email,
                         "Subject": "Reset your password",
                         "TextBody": `Here is your pasword reset code: ${isFoundotp}`
