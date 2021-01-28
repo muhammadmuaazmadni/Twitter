@@ -10,7 +10,7 @@ var api = express.Router();
 
 
 api.post("/signup", (req, res, next) => {
-   
+
     if (!req.body.name
         || !req.body.email
         || !req.body.password
